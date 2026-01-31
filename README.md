@@ -19,43 +19,6 @@ Uma aplicação web interativa para calcular e comparar emissões de CO² entre 
 
 Acesse a aplicação ao vivo: [🔗 Link do Projeto](#)
 
-## 📋 Requisitos
-
-- Navegador moderno com suporte a ES6+ JavaScript
-- Suporte a CSS Grid e Flexbox
-- Suporte ao seletor CSS `:has()` (navegadores modernos)
-
-## 🛠️ Instalação
-
-1. Clone o repositório:
-```bash
-git clone https://github.com/JMCVALE/CalculadoraCO2.git
-cd CalculadoraCO2
-```
-
-2. Abra o arquivo `index.html` no navegador:
-```bash
-# No Windows
-start index.html
-
-# No macOS
-open index.html
-
-# No Linux
-xdg-open index.html
-```
-
-Ou use um servidor local:
-```bash
-# Python 3
-python -m http.server 8000
-
-# Node.js com http-server
-npx http-server
-```
-
-Acesse `http://localhost:8000` no navegador.
-
 ## 📁 Estrutura do Projeto
 
 ```
@@ -163,84 +126,6 @@ const CONFIG = {
 };
 ```
 
-## 📱 Responsividade
-
-A aplicação é totalmente responsiva e se adapta a:
-- 📱 Celulares (320px+)
-- 📱 Tablets (768px+)
-- 🖥️ Desktops (1200px+)
-
-## ♿ Acessibilidade
-
-- ✅ Semântica HTML5 adequada
-- ✅ Labels associadas aos inputs
-- ✅ ARIA labels para seções
-- ✅ Navegação por teclado
-- ✅ Contraste de cores WCAG AA
-- ✅ Textos descritivos
-
-## 🎬 Funcionalidades Detalhadas
-
-### Cálculo de Emissão
-Fórmula utilizada:
-```
-Emissão (kg CO₂) = Distância (km) × Fator de Emissão (kg CO₂/km)
-```
-
-### Comparação de Modos
-Cada modo é comparado com o carro como baseline:
-```
-Percentagem vs Carro = (Emissão do Modo / Emissão do Carro) × 100
-```
-
-### Economia
-Calcula quanto você economiza usando um transporte mais sustentável:
-```
-Economia (kg) = Emissão do Carro - Emissão Escolhida
-Percentagem de Economia = (Economia / Emissão do Carro) × 100
-```
-
-### Créditos de Carbono
-Estima quantos créditos você precisa para compensar:
-```
-Créditos Necessários = Emissão Total (kg) / 1000
-Preço Médio = Créditos × R$ 100 (média entre min e max)
-```
-
-## 🎨 Paleta de Cores
-
-- **Verde Primário**: `#10b981` - Cor eco-friendly principal
-- **Verde Secundário**: `#059669` - Hover e interações
-- **Verde Claro**: `#34d399` - Destaques e acentos
-- **Cinza Claro**: `#6b7280` - Textos secundários
-- **Branco**: `#ffffff` - Fundo dos cards
-- **Fundo**: Gradiente verde degradé
-
-## 📈 Animações
-
-- **fadeIn**: Aparecimento suave dos resultados (0.5s)
-- **Transições**: Hover effects em botões e cards (0.3s)
-- **Escalas**: Crescimento do ícone ao selecionar transporte
-
-## 🐛 Conhecidos
-
-- O seletor CSS `:has()` requer navegadores modernos (Chrome 105+, Firefox 121+, Safari 15.4+)
-- As distâncias automáticas funcionam apenas com cidades cadastradas no `routes-data.js`
-
-## 🤝 Contribuindo
-
-Contribuições são bem-vindas! Para contribuir:
-
-1. Faça um fork do projeto
-2. Crie uma branch para sua feature (`git checkout -b feature/AmazingFeature`)
-3. Commit suas mudanças (`git commit -m 'Add some AmazingFeature'`)
-4. Push para a branch (`git push origin feature/AmazingFeature`)
-5. Abra um Pull Request
-
-## 📝 Licença
-
-Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
-
 ## 👤 Autor
 
 **Júlia Vale**
@@ -259,7 +144,7 @@ Desenvolvido com 💚 para [DIO](https://www.dio.me/) | Project GitHub Copilot
 
 Para dúvidas, sugestões ou reportar bugs:
 - 🐙 [Issues no GitHub](https://github.com/JMCVALE/CalculadoraCO2/issues)
-- 📧 Email: [seu-email@email.com]
+- 📧 Email: juliamcvale@gmail.com
 
 ---
 
