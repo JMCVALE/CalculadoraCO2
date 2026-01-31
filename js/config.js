@@ -23,22 +23,22 @@ const CONFIG = {
    */
   TRANSPORT_MODES: {
     bicycle: {
-      label: "Bicycle",
+      label: "Bicicleta",
       icon: "🚲",
       color: "#3b82f6", // Blue
     },
     car: {
-      label: "Car",
+      label: "Carro",
       icon: "🚗",
       color: "#ef4444", // Red
     },
     bus: {
-      label: "Bus",
+      label: "Ônibus",
       icon: "🚌",
       color: "#f59e0b", // Orange
     },
     truck: {
-      label: "Truck",
+      label: "Caminhão",
       icon: "🚚",
       color: "#8b5cf6", // Purple
     },
@@ -114,7 +114,7 @@ const CONFIG = {
         // Only proceed if both cities are filled
         if (!origin || !destination) {
           distanceInput.value = "";
-          helperText.textContent = "Distance will be populated automatically";
+          helperText.textContent = "Distância será preenchida automaticamente";
           helperText.style.color = "inherit";
           return;
         }
@@ -129,7 +129,7 @@ const CONFIG = {
           manualCheckbox.checked = false;
           
           // Update helper text to green success message
-          helperText.textContent = `Distance found: ${distance} km`;
+          helperText.textContent = `Distância encontrada: ${distance} km`;
           helperText.style.color = "#10b981"; // Primary green
           helperText.style.fontWeight = "600";
         } else {
@@ -138,7 +138,7 @@ const CONFIG = {
           distanceInput.readOnly = false;
           
           // Update helper text with suggestion
-          helperText.textContent = "Route not found. Check your entry or enable manual distance input.";
+          helperText.textContent = "Rota não encontrada. Verifique sua entrada ou ative a entrada de distância manual.";
           helperText.style.color = "#f59e0b"; // Warning orange
           helperText.style.fontWeight = "500";
         }
@@ -154,7 +154,7 @@ const CONFIG = {
           // Enable manual entry
           distanceInput.readOnly = false;
           distanceInput.value = "";
-          helperText.textContent = "Enter distance manually (in kilometers)";
+          helperText.textContent = "Digite a distância manualmente (em quilômetros)";
           helperText.style.color = "inherit";
           helperText.style.fontWeight = "normal";
           distanceInput.focus();

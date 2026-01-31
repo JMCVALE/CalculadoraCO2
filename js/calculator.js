@@ -72,7 +72,7 @@ const Calculator = {
    * @param {number} baselineEmission - Baseline emission (kg)
    * @returns {Object} { savedKg, percentage }
    */
-  calculateSavingd: function(emission, baselineEmission) {
+  calculateSavings: function(emission, baselineEmission) {
     const baseline = Number(baselineEmission) || 0;
     const current = Number(emission) || 0;
 

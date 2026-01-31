@@ -10,17 +10,17 @@ const UI = {
    */
   formatNumber: function(number, decimals = 2) {
     const n = Number(number) || 0;
-    return n.toLocaleString('en-US', { minimumFractionDigits: decimals, maximumFractionDigits: decimals });
+    return n.toLocaleString('pt-BR', { minimumFractionDigits: decimals, maximumFractionDigits: decimals });
   },
 
   /*
    * formatCurrency(value)
-   * - Formats a numeric value as US$ with en-US locale.
-   * - Returns a string like: "US$ 1,234.56"
+   * - Formats a numeric value as R$ with pt-BR locale.
+   * - Returns a string like: "R$ 1.234,56"
    */
   formatCurrency: function(value) {
     const v = Number(value) || 0;
-    return 'US$ ' + v.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    return 'R$ ' + v.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   },
 
   /*
@@ -66,24 +66,36 @@ const UI = {
     const distanceFormatted = this.formatNumber(data.distance, 2);
 
     const html = `
-      <div class="results_card results_card--route">
-        <h3 class="results_card__title">Rota</h3>
-        <p class="results_card__value">${data.origin} → ${data.destination}</p>
+      <div class="results_card">
+        <span class="results_icon">📍</span>
+        <div class="results_data">
+          <p class="results_label">Rota</p>
+          <p class="results_value">${data.origin} → ${data.destination}</p>
+        </div>
       </div>
 
-      <div class="results_card results_card--distance">
-        <h3 class="results_card__title">Distância</h3>
-        <p class="results_card__value">${distanceFormatted} km</p>
+      <div class="results_card">
+        <span class="results_icon">📏</span>
+        <div class="results_data">
+          <p class="results_label">Distância</p>
+          <p class="results_value">${distanceFormatted} km</p>
+        </div>
       </div>
 
-      <div class="results_card results_card--emission">
-        <h3 class="results_card__title">Emissão</h3>
-        <p class="results_card__value">🌿 ${emissionFormatted} kg CO₂</p>
+      <div class="results_card">
+        <span class="results_icon">🌿</span>
+        <div class="results_data">
+          <p class="results_label">Emissão</p>
+          <p class="results_value">${emissionFormatted} kg CO₂</p>
+        </div>
       </div>
 
-      <div class="results_card results_card--transport">
-        <h3 class="results_card__title">Transporte</h3>
-        <p class="results_card__value">${modeIcon} ${modeLabel}</p>
+      <div class="results_card">
+        <span class="results_icon">${modeIcon}</span>
+        <div class="results_data">
+          <p class="results_label">Modo de Transporte</p>
+          <p class="results_value">${modeLabel}</p>
+        </div>
       </div>
     `;
 
@@ -115,7 +127,7 @@ const UI = {
       const label = meta.label || m.mode;
 
       const emissionStr = this.formatNumber(m.emission, 2) + ' kg';
-      const percentStr = m.percentageVsCar !== null ? (m.percentageVsCar + '% vs car') : '—';
+      const percentStr = m.percentageVsCar !== null ? (m.percentageVsCar + '% vs carro') : '—';
 
       // Progress width based on emission relative to maxEmission
       const widthPct = maxEmission > 0 ? Math.round((m.emission / maxEmission) * 100) : 0;
@@ -128,18 +140,20 @@ const UI = {
       else barColor = 'red';
 
       const selectedClass = (m.mode === selectedMode) ? 'comparison_item--selected' : '';
-      const badge = (m.mode === selectedMode) ? '<span class="comparison_item__badge">Selecionado</span>' : '';
+      const badge = (m.mode === selectedMode) ? '<span class="comparison_badge">Selecionado</span>' : '';
 
       return `
         <div class="comparison_item ${selectedClass}">
-          <header class="comparison_item__header">
-            <span class="comparison_item__icon">${icon}</span>
-            <strong class="comparison_item__label">${label}</strong>
+          <div class="comparison_header">
+            <div class="comparison_mode">
+              <span class="comparison_icon">${icon}</span>
+              <strong class="comparison_label">${label}</strong>
+            </div>
             ${badge}
-          </header>
-          <div class="comparison_item__stats">${emissionStr} • ${percentStr}</div>
-          <div class="comparison_item__bar" aria-hidden="true">
-            <div class="comparison_item__bar-fill" style="width:${widthPct}%; background:${barColor};"></div>
+          </div>
+          <div class="comparison_stats">${emissionStr} • ${percentStr}</div>
+          <div class="comparison_bar-container" aria-hidden="true">
+            <div class="comparison_bar" style="width:${widthPct}%; background:${barColor};"></div>
           </div>
         </div>
       `;
@@ -147,11 +161,12 @@ const UI = {
 
     const tipBox = `
       <div class="comparison_tip">
-        <p><strong>Dica:</strong> Compare as emissões por modo de transporte para escolher a opção mais sustentável.</p>
+        <span class="comparison_tip_icon">💡</span>
+        <p class="comparison_tip_text"><strong>Dica:</strong> Compare as emissões por modo de transporte para escolher a opção mais sustentável.</p>
       </div>
     `;
 
-    return `<div class="comparison_list">${itemsHtml}</div>${tipBox}`;
+    return `<div>${itemsHtml}</div>${tipBox}`;
   },
 
   /*
@@ -169,27 +184,26 @@ const UI = {
     const priceRange = `${this.formatCurrency(price.min || 0)} — ${this.formatCurrency(price.max || 0)}`;
 
     const html = `
-      <div class="carbon_grid">
-        <div class="carbon_card carbon_card--credits">
-          <h3 class="carbon_card__title">Créditos necessários</h3>
-          <p class="carbon_card__value">${creditsStr}</p>
-          <p class="carbon_card__helper">1 crédito = 1000 kg CO₂</p>
+      <div class="carbon-credits_grid">
+        <div class="carbon-credits_card">
+          <p class="carbon-credits_label">Créditos necessários</p>
+          <p class="carbon-credits_value">${creditsStr}</p>
+          <p class="carbon-credits_hint">1 crédito = 1000 kg CO₂</p>
         </div>
 
-        <div class="carbon_card carbon_card--price">
-          <h3 class="carbon_card__title">Preço estimado</h3>
-          <p class="carbon_card__value">${priceAvg}</p>
-          <p class="carbon_card__helper">Faixa: ${priceRange}</p>
+        <div class="carbon-credits_card">
+          <p class="carbon-credits_label">Preço estimado</p>
+          <p class="carbon-credits_value">${priceAvg}</p>
+          <p class="carbon-credits_hint">Faixa: ${priceRange}</p>
         </div>
       </div>
 
-      <div class="carbon_info">
+      <div class="carbon-credits_info">
+        <strong>ℹ️ Créditos de Carbono</strong>
         <p>Créditos de carbono são instrumentos que representam a remoção ou redução de 1 tonelada de CO₂ equivalente. Use-os para compensar as emissões geradas pela sua viagem.</p>
       </div>
 
-      <div class="carbon_actions">
-        <button class="carbon_btn">🛒 Compensar Emissão</button>
-      </div>
+      <button class="carbon-credits_btn">🛒 Compensar Emissão</button>
     `;
 
     return html;

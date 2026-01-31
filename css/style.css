@@ -237,14 +237,6 @@ body {
 .calculator__transport-item {
   position: relative;
   cursor: pointer;
-}
-
-.calculator__transport-input {
-  position: absolute;
-  opacity: 0;
-}
-
-.calculator__transport-item {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -263,16 +255,70 @@ body {
   border-color: var(--primary);
 }
 
-.calculator__transport-input:checked + .calculator__transport-item {
+.calculator__transport-item:has(> .calculator__transport-input:checked) {
   border-color: var(--primary);
   border-width: 2px;
-  background-color: rgba(16, 185, 129, 0.1);
+  background-color: rgba(16, 185, 129, 0.15);
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+  font-weight: 600;
+}
+
+.calculator__transport-item:has(> .calculator__transport-input:checked) .calculator__transport-icon {
+  font-size: 3.5rem;
+  transform: scale(1.1);
+}
+
+.calculator__transport-item:has(> .calculator__transport-input:checked)::after {
+  content: "✓";
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background-color: var(--primary);
+  color: var(--white);
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.875rem;
+}
+
+.calculator__transport-input {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  width: 0;
+  height: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+/* Classe alternativa para feedback visual via JavaScript */
+.calculator__transport-item.transport-selected {
+  border-color: var(--primary);
+  border-width: 2px;
+  background-color: rgba(16, 185, 129, 0.15);
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+  font-weight: 600;
+}
+
+.calculator__transport-item.transport-selected .calculator__transport-icon {
+  font-size: 3.5rem;
+  transform: scale(1.1);
+}
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.875rem;
 }
 
 .calculator__transport-icon {
   font-size: 3rem;
   margin-bottom: var(--spacing-sm);
   display: block;
+  transition: font-size 0.3s ease, transform 0.3s ease;
 }
 
 .calculator__transport-text {
@@ -390,6 +436,295 @@ body {
 }
 
 /* ============================================================
+   Results Section Styles
+   ============================================================ */
+.results_card {
+  background-color: var(--white);
+  padding: var(--spacing-lg);
+  margin-bottom: var(--spacing-lg);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  display: flex;
+  align-items: center;
+  animation: fadeIn 0.5s ease-out;
+}
+
+.results_icon {
+  font-size: 2.5rem;
+  margin-right: var(--spacing-lg);
+  flex-shrink: 0;
+}
+
+.results_data {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.results_label {
+  font-size: 0.875rem;
+  color: var(--text-light);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: var(--spacing-xs);
+}
+
+.results_value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.results_savings {
+  border-left: 4px solid var(--accent);
+  background-color: rgba(52, 211, 153, 0.1);
+  padding: var(--spacing-lg);
+  margin-top: var(--spacing-lg);
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-lg);
+}
+
+.results_savings_icon {
+  font-size: 2rem;
+  flex-shrink: 0;
+}
+
+.results_savings_content {
+  flex: 1;
+}
+
+.results_savings_label {
+  font-size: 0.875rem;
+  color: var(--text-light);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: var(--spacing-xs);
+}
+
+.results_savings_value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+/* ============================================================
+   Comparison Section Styles
+   ============================================================ */
+.comparison_item {
+  padding: var(--spacing-md);
+  margin-bottom: var(--spacing-md);
+  border: 2px solid #e5e7eb;
+  border-radius: var(--radius);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.comparison_item:hover {
+  border-color: var(--primary);
+  background-color: rgba(16, 185, 129, 0.05);
+}
+
+.comparison_item--selected {
+  border-color: var(--primary);
+  background-color: rgba(16, 185, 129, 0.1);
+}
+
+.comparison_header {
+  display: flex;
+  align-items: center;
+  margin-bottom: var(--spacing-md);
+  justify-content: space-between;
+}
+
+.comparison_mode {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.comparison_icon {
+  font-size: 1.5rem;
+}
+
+.comparison_label {
+  font-weight: 600;
+  color: var(--text);
+}
+
+.comparison_badge {
+  height: 24px;
+  background-color: var(--primary);
+  color: var(--white);
+  padding: 0.25rem 0.5rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+}
+
+.comparison_stats {
+  text-align: right;
+  margin-bottom: var(--spacing-md);
+}
+
+.comparison_emission {
+  font-weight: 700;
+  font-size: 1.125rem;
+  color: var(--text);
+}
+
+.comparison_percentage {
+  font-size: 0.875rem;
+  color: var(--text-light);
+}
+
+.comparison_bar-container {
+  width: 100%;
+  height: 12px;
+  background-color: #e5e7eb;
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: var(--spacing-md);
+}
+
+.comparison_bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+  border-radius: var(--radius);
+  transition: width 0.5s ease;
+}
+
+.comparison_tip {
+  background-color: rgba(59, 130, 246, 0.1);
+  border-left: 4px solid var(--info);
+  padding: var(--spacing-md);
+  margin-top: var(--spacing-md);
+  display: flex;
+  gap: var(--spacing-md);
+  border-radius: var(--radius);
+}
+
+.comparison_tip_icon {
+  font-size: 1.25rem;
+  flex-shrink: 0;
+  color: var(--info);
+}
+
+.comparison_tip_text {
+  font-size: 0.875rem;
+  color: var(--text);
+  line-height: 1.5;
+}
+
+/* ============================================================
+   Carbon Credits Section Styles
+   ============================================================ */
+.carbon-credits_grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--spacing-lg);
+  margin-bottom: var(--spacing-lg);
+}
+
+.carbon-credits_card {
+  background-color: var(--white);
+  padding: var(--spacing-lg);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  animation: fadeIn 0.5s ease-out;
+}
+
+.carbon-credits_label {
+  font-size: 0.875rem;
+  color: var(--text-light);
+  margin-bottom: var(--spacing-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.carbon-credits_value {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.carbon-credits_hint {
+  font-size: 0.75rem;
+  color: var(--text-light);
+  margin-top: var(--spacing-sm);
+}
+
+.carbon-credits_info {
+  border: 2px dashed var(--info);
+  background-color: rgba(59, 130, 246, 0.05);
+  padding: var(--spacing-md);
+  border-radius: var(--radius);
+  margin-bottom: var(--spacing-lg);
+}
+
+.carbon-credits_info strong {
+  font-weight: 700;
+  color: var(--info);
+}
+
+.carbon-credits_info p {
+  line-height: 1.6;
+  color: var(--text);
+  margin: var(--spacing-sm) 0;
+}
+
+.carbon-credits_info p:first-child {
+  margin-top: 0;
+}
+
+.carbon-credits_btn {
+  width: 100%;
+  background-color: var(--primary);
+  color: var(--white);
+  padding: var(--spacing-md);
+  border-radius: var(--radius);
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.carbon-credits_btn:hover {
+  background-color: var(--secondary);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.carbon-credits_btn:active {
+  transform: translateY(0);
+}
+
+/* ============================================================
+   Animations
+   ============================================================ */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+}
+
+.results_card,
+.carbon-credits_card,
+.comparison_item {
+  animation: fadeIn 0.5s ease-out;
+}
+
+/* ============================================================
    Responsive Design
    ============================================================ */
 @media (max-width: 767px) {
@@ -408,6 +743,38 @@ body {
   .calculator__row--inputs {
     grid-template-columns: 1fr;
   }
+
+  /* Results Mobile */
+  .results_card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .results_icon {
+    margin-right: 0;
+    margin-bottom: var(--spacing-md);
+  }
+
+  .results_value {
+    font-size: 1.25rem;
+  }
+
+  /* Carbon Credits Mobile */
+  .carbon-credits_grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Comparison Mobile */
+  .comparison_header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .comparison_stats {
+    text-align: left;
+    width: 100%;
+    margin-bottom: var(--spacing-md);
+  }
 }
 
 @media (min-width: 768px) {
@@ -418,5 +785,9 @@ body {
 
   .calculator__row--distance {
     grid-template-columns: 1fr;
+  }
+
+  .carbon-credits_grid {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
