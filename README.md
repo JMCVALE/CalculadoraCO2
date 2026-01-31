@@ -1,6 +1,7 @@
 # 🌿 Calculadora de Emissão de CO²
 
-Uma aplicação web interativa para calcular e comparar emissões de CO² entre cidades usando diferentes modos de transporte. Ajude a entender o impacto ambiental de suas viagens e compense suas emissões com créditos de carbono.
+Uma aplicação web interativa para calcular e comparar emissões de CO² entre cidades usando diferentes modos de transporte. 
+Ajude a entender o impacto ambiental de suas viagens e compense suas emissões com créditos de carbono.
 
 **Desenvolvido por Júlia Vale com 💚 para DIO | Project GitHub Copilot**
 
@@ -11,9 +12,6 @@ Uma aplicação web interativa para calcular e comparar emissões de CO² entre 
 - ✅ **Autocomplete de Cidades** - Sugestões automáticas de cidades brasileiras
 - ✅ **Distância Automática** - Distância calculada automaticamente entre cidades cadastradas
 - ✅ **Créditos de Carbono** - Estime créditos necessários e preço para compensar emissões
-- ✅ **Interface Responsiva** - Funciona perfeitamente em desktop e mobile
-- ✅ **Totalmente em Português** - Interface 100% localizada para português brasileiro
-- ✅ **Animações Suaves** - Transições elegantes e feedback visual instantâneo
 
 ## 🚀 Demo
 
@@ -99,32 +97,6 @@ O banco de dados inclui as principais cidades brasileiras:
 - **Região Norte**: Manaus, Belém
 
 E mais de 30 rotas pré-cadastradas!
-
-## 🔧 Configuração
-
-As configurações estão no arquivo `js/config.js`:
-
-```javascript
-const CONFIG = {
-  EMISSION_FACTORS: {
-    bicycle: 0,
-    car: 0.12,
-    bus: 0.089,
-    truck: 0.96,
-  },
-  
-  TRANSPORT_MODES: {
-    bicycle: { label: "Bicicleta", icon: "🚲", color: "#3b82f6" },
-    // ... mais modos
-  },
-  
-  CARBON_CREDIT: {
-    KG_PER_CREDIT: 1000,
-    PRICE_MIN_USD: 50,
-    PRICE_MAX_USD: 150,
-  }
-};
-```
 
 ## 👤 Autor
 
