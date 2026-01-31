@@ -1,0 +1,422 @@
+/* ============================================================
+   CSS Custom Properties
+   ============================================================ */
+:root {
+  /* Color Palette - Eco-friendly */
+  --primary: #10b981;
+  --secondary: #059669;
+  --accent: #34d399;
+  --danger: #ef4444;
+  --warning: #f59e0b;
+  --info: #3b82f6;
+
+  /* Text & Background */
+  --text: #1f2937;
+  --text-light: #6b7280;
+  --bg: #f9fafb;
+  --white: #ffffff;
+
+  /* Spacing Scale */
+  --spacing-xs: 0.5rem;
+  --spacing-sm: 0.75rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+  --spacing-2xl: 2.5rem;
+  --spacing-3xl: 3rem;
+
+  /* Border Radius */
+  --radius: 0.5rem;
+  --radius-lg: 1rem;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+/* ============================================================
+   Base Styles
+   ============================================================ */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: linear-gradient(135deg, #d4fc79 0%, #96e6a1 100%);
+  min-height: 100vh;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+    Ubuntu, Cantarell, 'Fira Sans', 'Droid Sans', sans-serif;
+  color: var(--text);
+  line-height: 1.6;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--spacing-lg);
+}
+
+/* ============================================================
+   Utility Classes
+   ============================================================ */
+.hidden {
+  display: none !important;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.section-title {
+  font-size: 1.875rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: var(--spacing-xl);
+}
+
+/* ============================================================
+   Header Styles
+   ============================================================ */
+.site-header {
+  background-color: var(--white);
+  box-shadow: var(--shadow-md);
+  padding: var(--spacing-xl);
+  margin-bottom: var(--spacing-2xl);
+}
+
+.site-header__inner {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.site-header__title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: var(--spacing-sm);
+}
+
+.site-header__subtitle {
+  font-size: 1rem;
+  color: var(--text-light);
+}
+
+/* ============================================================
+   Main Layout
+   ============================================================ */
+.main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-lg);
+}
+
+/* ============================================================
+   Calculator Form Styles
+   ============================================================ */
+.calculator {
+  background-color: var(--white);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  padding: var(--spacing-2xl);
+  margin-bottom: var(--spacing-2xl);
+}
+
+.calculator__form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xl);
+}
+
+.calculator__row {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.calculator__row--inputs {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--spacing-md);
+}
+
+.calculator__row--distance {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--spacing-md);
+}
+
+.calculator__row--actions {
+  margin-top: var(--spacing-xl);
+}
+
+.calculator__label {
+  font-weight: 600;
+  display: block;
+  margin-bottom: var(--spacing-sm);
+  color: var(--text);
+}
+
+.calculator__label--inline {
+  display: inline;
+  margin-bottom: 0;
+  margin-left: var(--spacing-sm);
+}
+
+.calculator__input {
+  width: 100%;
+  padding: var(--spacing-md);
+  border: 1px solid #d1d5db;
+  border-radius: var(--radius);
+  font-size: 1rem;
+  font-family: inherit;
+  transition: all 0.3s ease;
+}
+
+.calculator__input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+}
+
+.calculator__input:disabled,
+.calculator__input[readonly] {
+  background-color: #f3f4f6;
+  color: var(--text-light);
+  cursor: not-allowed;
+}
+
+.calculator__helper {
+  font-size: 0.875rem;
+  color: var(--text-light);
+  margin-top: var(--spacing-sm);
+}
+
+.calculator__fieldset {
+  border: none;
+  padding: 0;
+}
+
+.calculator__legend {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: var(--spacing-lg);
+  display: block;
+}
+
+/* ============================================================
+   Transport Mode Grid
+   ============================================================ */
+.calculator__transport-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--spacing-md);
+}
+
+@media (min-width: 768px) {
+  .calculator__transport-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.calculator__transport-item {
+  position: relative;
+  cursor: pointer;
+}
+
+.calculator__transport-input {
+  position: absolute;
+  opacity: 0;
+}
+
+.calculator__transport-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-lg);
+  border: 2px solid #e5e7eb;
+  border-radius: var(--radius);
+  background-color: var(--white);
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+.calculator__transport-item:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--primary);
+}
+
+.calculator__transport-input:checked + .calculator__transport-item {
+  border-color: var(--primary);
+  border-width: 2px;
+  background-color: rgba(16, 185, 129, 0.1);
+}
+
+.calculator__transport-icon {
+  font-size: 3rem;
+  margin-bottom: var(--spacing-sm);
+  display: block;
+}
+
+.calculator__transport-text {
+  font-weight: 600;
+  color: var(--text);
+}
+
+/* ============================================================
+   Checkbox Styles
+   ============================================================ */
+.calculator__manual {
+  display: flex;
+  align-items: center;
+  margin-top: var(--spacing-md);
+}
+
+.calculator__checkbox {
+  width: 1.25rem;
+  height: 1.25rem;
+  cursor: pointer;
+  accent-color: var(--primary);
+}
+
+/* ============================================================
+   Button Styles
+   ============================================================ */
+.calculator__btn {
+  width: 100%;
+  padding: var(--spacing-md) var(--spacing-lg);
+  background-color: var(--primary);
+  color: var(--white);
+  border: none;
+  border-radius: var(--radius);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.calculator__btn:hover {
+  background-color: var(--secondary);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.calculator__btn:active {
+  transform: translateY(0);
+}
+
+.calculator__btn:disabled {
+  background-color: #d1d5db;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ============================================================
+   Results Sections
+   ============================================================ */
+.results,
+.comparison,
+.carbon-credits {
+  background-color: var(--white);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  padding: var(--spacing-2xl);
+  margin-bottom: var(--spacing-2xl);
+}
+
+.results__content,
+.comparison__content,
+.carbon-credits__content {
+  min-height: 150px;
+}
+
+/* ============================================================
+   Footer Styles
+   ============================================================ */
+.site-footer {
+  background-color: var(--white);
+  box-shadow: var(--shadow-md);
+  padding: var(--spacing-xl);
+  margin-top: var(--spacing-2xl);
+}
+
+.site-footer__inner {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.site-footer__credits {
+  font-size: 0.875rem;
+  color: var(--text-light);
+  text-align: center;
+}
+
+/* ============================================================
+   Spinner Animation
+   ============================================================ */
+.spinner {
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  border: 4px solid rgba(16, 185, 129, 0.2);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ============================================================
+   Responsive Design
+   ============================================================ */
+@media (max-width: 767px) {
+  .site-header__title {
+    font-size: 1.5rem;
+  }
+
+  .calculator {
+    padding: var(--spacing-lg);
+  }
+
+  .calculator__transport-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .calculator__row--inputs {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (min-width: 768px) {
+  .calculator__row--inputs {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-lg);
+  }
+
+  .calculator__row--distance {
+    grid-template-columns: 1fr;
+  }
+}
