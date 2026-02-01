@@ -87,8 +87,8 @@ const CONFIG = {
   },
 
   /**
-   * Configura preenchimento automático de distância via Google Maps API
-   * Busca distância entre origem e destino usando RoutesDB.findDistance()
+   * Configura preenchimento automático de distância
+   * Busca nos dados locais pré-cadastrados
    */
   setupDistanceAutofill: function() {
     try {
@@ -98,6 +98,75 @@ const CONFIG = {
       const distanceInput = document.getElementById("distance");
       const manualCheckbox = document.getElementById("manual-distance");
       const helperText = document.querySelector(".calculator__helper");
+
+      if (!originInput || !destinationInput || !distanceInput || !manualCheckbox || !helperText) {
+        console.error("Elementos do formulário não encontrados");
+        return;
+      }
+
+      /**
+       * Tenta preencher a distância automaticamente
+       */
+      const tryFillDistance = () => {
+        const origin = originInput.value.trim();
+        const destination = destinationInput.value.trim();
+
+        // Validar entrada
+        if (!origin || !destination) {
+          distanceInput.value = "";
+          helperText.textContent = "Digite origem e destino";
+          helperText.style.color = "inherit";
+          return;
+        }
+
+        // Buscar distância nos dados locais
+        const distance = RoutesDB.findDistance(origin, destination);
+
+        if (distance !== null) {
+          // Sucesso: preencher distância
+          distanceInput.value = distance;
+          distanceInput.readOnly = true;
+          manualCheckbox.checked = false;
+          
+          helperText.textContent = `✅ Distância encontrada: ${distance} km`;
+          helperText.style.color = "#10b981";
+          helperText.style.fontWeight = "600";
+        } else {
+          // Não encontrada: permitir entrada manual
+          distanceInput.value = "";
+          distanceInput.readOnly = false;
+          
+          helperText.textContent = "⚠️ Rota não cadastrada. Digite manualmente ou tente outras cidades.";
+          helperText.style.color = "#f59e0b";
+          helperText.style.fontWeight = "500";
+        }
+      };
+
+      // Listeners para mudanças nos inputs
+      originInput.addEventListener("change", tryFillDistance);
+      destinationInput.addEventListener("change", tryFillDistance);
+
+      // Listener para checkbox de distância manual
+      manualCheckbox.addEventListener("change", () => {
+        if (manualCheckbox.checked) {
+          // Modo manual
+          distanceInput.readOnly = false;
+          distanceInput.value = "";
+          helperText.textContent = "Digite a distância em quilômetros";
+          helperText.style.color = "inherit";
+          helperText.style.fontWeight = "normal";
+          distanceInput.focus();
+        } else {
+          // Tentar buscar automaticamente novamente
+          tryFillDistance();
+        }
+      });
+
+      console.log("✅ Preenchimento automático de distância configurado");
+    } catch (error) {
+      console.error("Erro ao configurar preenchimento automático:", error);
+    }
+  },
 
       if (!originInput || !destinationInput || !distanceInput || !manualCheckbox || !helperText) {
         console.error("Elementos do formulário não encontrados");
