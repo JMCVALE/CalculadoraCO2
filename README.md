@@ -187,7 +187,7 @@ Preço Médio = Créditos × R$ 100 (média entre min e max)
 ## 🐛 Conhecidos
 
 - O seletor CSS `:has()` requer navegadores modernos (Chrome 105+, Firefox 121+, Safari 15.4+)
-- As distâncias automáticas funcionam com cidades cadastradas em `routes-data.js` ou qualquer rota via Google Maps API
+- As distâncias automáticas funcionam com cidades cadastradas em `routes-data.js`
 
 ## 🤝 Contribuindo
 
