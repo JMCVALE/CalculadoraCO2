@@ -10,6 +10,7 @@ Uma aplicação web interativa para calcular e comparar emissões de CO² entre 
 - ✅ **Comparação de Modos** - Compare emissões entre bicicleta, carro, ônibus e caminhão
 - ✅ **Autocomplete de Cidades** - Sugestões automáticas de cidades brasileiras
 - ✅ **Distância Automática** - Distância calculada automaticamente entre cidades cadastradas
+- ✅ **Google Maps Distance Matrix API** - Suporte opcional a cálculo de distâncias para qualquer rota
 - ✅ **Créditos de Carbono** - Estime créditos necessários e preço para compensar emissões
 - ✅ **Interface Responsiva** - Funciona perfeitamente em desktop e mobile
 - ✅ **Totalmente em Português** - Interface 100% localizada para português brasileiro
@@ -136,6 +137,20 @@ O banco de dados inclui as principais cidades brasileiras:
 - **Região Norte**: Manaus, Belém
 
 E mais de 30 rotas pré-cadastradas!
+
+### 🚀 Expandir para Qualquer Rota com Google Maps API
+
+Para calcular distâncias entre **qualquer par de cidades**, ative a Google Maps Distance Matrix API:
+
+1. 📖 Siga o guia completo em [API_CONFIG.md](API_CONFIG.md)
+2. Obtenha sua chave gratuita no [Google Cloud Console](https://console.cloud.google.com/)
+3. Configure a chave no `index.html`
+4. Pronto! Agora funciona para qualquer rota no Brasil e no mundo
+
+**Sistema de Fallback Automático:**
+- Primeiro busca em dados locais (rápido)
+- Se não encontrar, tenta a API (qualquer rota)
+- Se API não disponível, usa dados locais apenas
 
 ## 🔧 Configuração
 

@@ -1,12 +1,18 @@
 /**
  * RoutesDB - Global database of transportation routes
  * 
- * This object maintains a collection of popular routes between major cities
- * in Canada and the USA, providing utilities for searching and retrieving
- * distance information between city pairs.
+ * Banco de dados de rotas entre cidades brasileiras com suporte a:
+ * - Dados locais pré-cadastrados (rotas principais)
+ * - Google Maps Distance Matrix API (cálculo em tempo real para qualquer rota)
+ * 
+ * Uso:
+ * RoutesDB.findDistance("São Paulo, SP", "Rio de Janeiro, RJ")
+ * RoutesDB.findDistanceViaAPI("São Paulo, SP", "Rio de Janeiro, RJ")
  */
 
 const RoutesDB = {
+  // Configuração da API (usar variável global ou environment)
+  apiKey: typeof GOOGLE_MAPS_API_KEY !== 'undefined' ? GOOGLE_MAPS_API_KEY : '',
   /**
    * Array of route objects
    * Each route contains:
@@ -106,5 +112,79 @@ const RoutesDB = {
 
     // Return distance if found, otherwise return null
     return route ? route.distanceKm : null;
+  },
+
+  /**
+   * Busca distância via Google Maps Distance Matrix API
+   * Funciona para qualquer par de cidades, não apenas rotas pré-cadastradas
+   * 
+   * @param {string} origin - Cidade de origem
+   * @param {string} destination - Cidade de destino
+   * @returns {Promise<number|null>} Promise resolvida com distância em km ou null se erro
+   */
+  findDistanceViaAPI: async function(origin, destination) {
+    try {
+      // Validar chave de API
+      if (!this.apiKey) {
+        console.warn('Google Maps API key não configurada. Use dados locais ou configure a chave.');
+        return null;
+      }
+
+      // Construir URL da API
+      const params = new URLSearchParams({
+        origins: origin,
+        destinations: destination,
+        key: this.apiKey,
+        units: 'metric'
+      });
+
+      const url = `https://maps.googleapis.com/maps/api/distancematrix/json?${params}`;
+
+      // Fazer requisição
+      const response = await fetch(url);
+      const data = await response.json();
+
+      // Verificar se houve erro
+      if (data.status !== 'OK') {
+        console.warn(`Google Maps API error: ${data.status}`);
+        return null;
+      }
+
+      // Verificar resultados
+      if (data.rows && data.rows.length > 0 && data.rows[0].elements && data.rows[0].elements.length > 0) {
+        const element = data.rows[0].elements[0];
+
+        if (element.status === 'OK') {
+          // Converter metros para quilômetros
+          const distanceKm = element.distance.value / 1000;
+          return parseFloat(distanceKm.toFixed(2));
+        }
+      }
+
+      return null;
+    } catch (err) {
+      console.error('Erro ao buscar distância via Google Maps API:', err);
+      return null;
+    }
+  },
+
+  /**
+   * Busca distância com fallback automático (local → API)
+   * Primeiro tenta dados locais, se não encontrar tenta API
+   * 
+   * @param {string} origin - Cidade de origem
+   * @param {string} destination - Cidade de destino
+   * @returns {Promise<number|null>} Distância em km ou null
+   */
+  findDistanceWithFallback: async function(origin, destination) {
+    // Primeiro, tentar dados locais (rápido)
+    const localDistance = this.findDistance(origin, destination);
+    if (localDistance !== null) {
+      return localDistance;
+    }
+
+    // Se não encontrar, tentar API (mais lento mas abrange qualquer rota)
+    const apiDistance = await this.findDistanceViaAPI(origin, destination);
+    return apiDistance;
   },
 };
