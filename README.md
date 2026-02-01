@@ -11,12 +11,14 @@ Ajude a entender o impacto ambiental de suas viagens e compense suas emissões c
 - ✅ **Comparação de Modos** - Compare emissões entre bicicleta, carro, ônibus e caminhão
 - ✅ **Autocomplete de Cidades** - Sugestões automáticas de cidades brasileiras
 - ✅ **Distância Automática** - Distância calculada automaticamente entre cidades cadastradas
-- ✅ **Google Maps Distance Matrix API** - Suporte opcional a cálculo de distâncias para qualquer rota
 - ✅ **Créditos de Carbono** - Estime créditos necessários e preço para compensar emissões
+- ✅ **Interface Responsiva** - Funciona perfeitamente em desktop e mobile
+- ✅ **Totalmente em Português** - Interface 100% localizada para português brasileiro
+- ✅ **Animações Suaves** - Transições elegantes e feedback visual instantâneo
 
 ## 🚀 Demo
 
-Acesse a aplicação ao vivo: [🔗 Link do Projeto](#)
+Acesse a aplicação ao vivo: [🔗 https://jmcvale.github.io/CalculadoraCO2/](https://jmcvale.github.io/CalculadoraCO2/)
 
 ## 📁 Estrutura do Projeto
 
@@ -89,29 +91,13 @@ Use os créditos de carbono para compensar suas emissões através de projetos c
 
 ## 🌍 Cidades Disponíveis
 
-O banco de dados inclui as principais cidades brasileiras:
+O banco de dados inclui mais de 30 rotas pré-cadastradas entre as principais cidades brasileiras, incluindo:
 
 - **Região Sudeste**: São Paulo, Rio de Janeiro, Belo Horizonte
 - **Região Nordeste**: Salvador, Fortaleza, Recife
 - **Região Sul**: Curitiba, Porto Alegre
 - **Região Centro-Oeste**: Brasília, Goiânia, Cuiabá
 - **Região Norte**: Manaus, Belém
-
-E mais de 30 rotas pré-cadastradas!
-
-### 🚀 Expandir para Qualquer Rota com Google Maps API
-
-Para calcular distâncias entre **qualquer par de cidades**, ative a Google Maps Distance Matrix API:
-
-1. 📖 Siga o guia completo em [API_CONFIG.md](API_CONFIG.md)
-2. Obtenha sua chave gratuita no [Google Cloud Console](https://console.cloud.google.com/)
-3. Configure a chave no `index.html`
-4. Pronto! Agora funciona para qualquer rota no Brasil e no mundo
-
-**Sistema de Fallback Automático:**
-- Primeiro busca em dados locais (rápido)
-- Se não encontrar, tenta a API (qualquer rota)
-- Se API não disponível, usa dados locais apenas
 
 ## 🔧 Configuração
 
