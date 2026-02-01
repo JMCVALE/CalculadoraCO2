@@ -36,7 +36,7 @@ CO2_emission_calculator/
 ## 🎨 Tecnologias Utilizadas
 
 - **HTML5** - Estrutura semântica
-- **CSS3** - Design responsivo com Grid, Flexbox e Animações
+- **CSS** - Design responsivo com Grid, Flexbox e Animações
 - **JavaScript ES6+** - Lógica da aplicação
 - **Git & GitHub** - Controle de versão
 
