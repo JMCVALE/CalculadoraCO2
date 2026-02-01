@@ -15,11 +15,22 @@ const RoutesDB = {
    */
   routes: [
     // Região Sudeste
-    { origin: "São Paulo, SP", destination: "Rio de Janeiro, RJ", distanceKm: 429 },
-    { origin: "São Paulo, SP", destination: "Brasília, DF", distanceKm: 1015 },
-    { origin: "Rio de Janeiro, RJ", destination: "Brasília, DF", distanceKm: 1150 },
-    { origin: "São Paulo, SP", destination: "Belo Horizonte, MG", distanceKm: 586 },
-    { origin: "Rio de Janeiro, RJ", destination: "Belo Horizonte, MG", distanceKm: 716 },
+    { origin: "São Paulo, SP", destination: "Campinas, SP", distanceKm: 99 },
+    { origin: "São Paulo, SP", destination: "Ribeirão Preto, SP", distanceKm: 313 },
+    { origin: "São Paulo, SP", destination: "São José dos Campos, SP", distanceKm: 97 },
+    { origin: "São Paulo, SP", destination: "Santos, SP", distanceKm: 72 },
+
+    { origin: "Rio de Janeiro, RJ", destination: "Niterói, RJ", distanceKm: 22 },
+    { origin: "Rio de Janeiro, RJ", destination: "Campos dos Goytacazes, RJ", distanceKm: 279 },
+    { origin: "Rio de Janeiro, RJ", destination: "Volta Redonda, RJ", distanceKm: 127 },
+
+    { origin: "Belo Horizonte, MG", destination: "Uberlândia, MG", distanceKm: 556 },
+    { origin: "Belo Horizonte, MG", destination: "Juiz de Fora, MG", distanceKm: 272 },
+    { origin: "Belo Horizonte, MG", destination: "Montes Claros, MG", distanceKm: 422 },
+
+    { origin: "Vitória, ES", destination: "Belo Horizonte, MG", distanceKm: 524 },
+    { origin: "Vitória, ES", destination: "Rio de Janeiro, RJ", distanceKm: 521 },
+    { origin: "Vitória, ES", destination: "São Paulo, SP", distanceKm: 882 },
 
     // Região Nordeste
     { origin: "Salvador, BA", destination: "Fortaleza, CE", distanceKm: 1407 },

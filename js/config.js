@@ -1,14 +1,8 @@
 /**
  * CONFIG - Global configuration object
- * 
- * Contains emission factors, transport mode metadata, carbon credit data,
- * and setup methods for initializing the calculator UI.
  */
 
 const CONFIG = {
-  /**
-   * Emission factors in kg CO2 per kilometer
-   */
   EMISSION_FACTORS: {
     bicycle: 0,
     car: 0.12,
@@ -16,9 +10,6 @@ const CONFIG = {
     truck: 0.96,
   },
 
-  /**
-   * Transport modes metadata
-   */
   TRANSPORT_MODES: {
     bicycle: { label: "Bicicleta", icon: "🚲", color: "#3b82f6" },
     car: { label: "Carro", icon: "🚗", color: "#ef4444" },
@@ -26,9 +17,6 @@ const CONFIG = {
     truck: { label: "Caminhão", icon: "🚚", color: "#8b5cf6" },
   },
 
-  /**
-   * Carbon credit pricing and conversion data
-   */
   CARBON_CREDIT: {
     KG_PER_CREDIT: 1000,
     PRICE_MIN_USD: 50,
@@ -36,93 +24,93 @@ const CONFIG = {
   },
 
   /**
-   * Populates the datalist with all available cities from RoutesDB
+   * Preenche o datalist com cidades disponíveis
    */
-  populateDetails: function() {
-    try {
-      const cities = RoutesDB.getAllCities();
-      const datalist = document.getElementById("city-list");
+  populateDetails: function () {
+    const datalist = document.getElementById("city-list");
+    if (!datalist) return;
 
-      if (!datalist) return;
+    datalist.innerHTML = "";
 
-      datalist.innerHTML = "";
-
-      cities.forEach((city) => {
-        const option = document.createElement("option");
-        option.value = city;
-        datalist.appendChild(option);
-      });
-    } catch (error) {
-      console.error("Erro ao popular datalist:", error);
-    }
+    RoutesDB.getAllCities().forEach((city) => {
+      const option = document.createElement("option");
+      option.value = city;
+      datalist.appendChild(option);
+    });
   },
 
   /**
-   * Configura preenchimento automático de distância
-   * usando base local (RoutesDB)
+   * Configura preenchimento automático da distância
    */
-  setupDistanceAutofill: function() {
-    try {
-      const originInput = document.getElementById("origin");
-      const destinationInput = document.getElementById("destination");
-      const distanceInput = document.getElementById("distance");
-      const manualCheckbox = document.getElementById("manual-distance");
-      const helperText = document.querySelector(".calculator__helper");
+  setupDistanceAutofill: function () {
+    const originInput = document.getElementById("origin");
+    const destinationInput = document.getElementById("destination");
+    const distanceInput = document.getElementById("distance");
+    const manualCheckbox = document.getElementById("manual-distance");
+    const helperText = document.querySelector(".calculator__helper");
 
-      if (!originInput || !destinationInput || !distanceInput || !manualCheckbox || !helperText) {
-        console.error("Elementos do formulário não encontrados");
+    if (!originInput || !destinationInput || !distanceInput || !manualCheckbox || !helperText) {
+      console.error("Elementos do formulário não encontrados");
+      return;
+    }
+
+    const cities = RoutesDB.getAllCities();
+
+    const isValidCity = (value) => cities.includes(value);
+
+    const resetDistance = (message) => {
+      distanceInput.value = "";
+      distanceInput.readOnly = false;
+      manualCheckbox.checked = true;
+      helperText.textContent = message;
+      helperText.style.color = "#f59e0b";
+      helperText.style.fontWeight = "500";
+    };
+
+    const tryFillDistance = () => {
+      const origin = originInput.value.trim();
+      const destination = destinationInput.value.trim();
+
+      if (!origin || !destination) {
+        resetDistance("Digite origem e destino");
         return;
       }
 
-      const tryFillDistance = () => {
-        const origin = originInput.value.trim();
-        const destination = destinationInput.value.trim();
+      if (!isValidCity(origin) || !isValidCity(destination)) {
+        resetDistance("Selecione uma cidade válida da lista");
+        return;
+      }
 
-        if (!origin || !destination) {
-          distanceInput.value = "";
-          helperText.textContent = "Digite origem e destino";
-          helperText.style.color = "inherit";
-          return;
-        }
+      const distance = RoutesDB.findDistance(origin, destination);
 
-        const distance = RoutesDB.findDistance(origin, destination);
+      if (distance !== null) {
+        distanceInput.value = distance;
+        distanceInput.readOnly = true;
+        manualCheckbox.checked = false;
 
-        if (distance !== null) {
-          distanceInput.value = distance;
-          distanceInput.readOnly = true;
-          manualCheckbox.checked = false;
+        helperText.textContent = `✅ Distância encontrada: ${distance} km`;
+        helperText.style.color = "#10b981";
+        helperText.style.fontWeight = "600";
+      } else {
+        resetDistance("⚠️ Rota não cadastrada. Digite a distância manualmente.");
+      }
+    };
 
-          helperText.textContent = `✅ Distância encontrada: ${distance} km`;
-          helperText.style.color = "#10b981";
-          helperText.style.fontWeight = "600";
-        } else {
-          distanceInput.value = "";
-          distanceInput.readOnly = false;
-          manualCheckbox.checked = true;
+    // reagir enquanto digita
+    originInput.addEventListener("input", tryFillDistance);
+    destinationInput.addEventListener("input", tryFillDistance);
 
-          helperText.textContent = "⚠️ Rota não cadastrada. Digite a distância manualmente.";
-          helperText.style.color = "#f59e0b";
-          helperText.style.fontWeight = "500";
-        }
-      };
-
-      originInput.addEventListener("change", tryFillDistance);
-      destinationInput.addEventListener("change", tryFillDistance);
-
-      manualCheckbox.addEventListener("change", () => {
-        if (manualCheckbox.checked) {
-          distanceInput.readOnly = false;
-          distanceInput.value = "";
-          helperText.textContent = "Digite a distância em quilômetros";
-          helperText.style.color = "inherit";
-          helperText.style.fontWeight = "normal";
-          distanceInput.focus();
-        } else {
-          tryFillDistance();
-        }
-      });
-    } catch (error) {
-      console.error("Erro ao configurar preenchimento automático:", error);
-    }
+    manualCheckbox.addEventListener("change", () => {
+      if (manualCheckbox.checked) {
+        distanceInput.readOnly = false;
+        distanceInput.value = "";
+        helperText.textContent = "Digite a distância em quilômetros";
+        helperText.style.color = "inherit";
+        helperText.style.fontWeight = "normal";
+        distanceInput.focus();
+      } else {
+        tryFillDistance();
+      }
+    });
   },
 };
