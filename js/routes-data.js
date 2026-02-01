@@ -19,25 +19,34 @@ const RoutesDB = {
     { origin: "São Paulo, SP", destination: "Ribeirão Preto, SP", distanceKm: 313 },
     { origin: "São Paulo, SP", destination: "São José dos Campos, SP", distanceKm: 97 },
     { origin: "São Paulo, SP", destination: "Santos, SP", distanceKm: 72 },
-
     { origin: "Rio de Janeiro, RJ", destination: "Niterói, RJ", distanceKm: 22 },
     { origin: "Rio de Janeiro, RJ", destination: "Campos dos Goytacazes, RJ", distanceKm: 279 },
     { origin: "Rio de Janeiro, RJ", destination: "Volta Redonda, RJ", distanceKm: 127 },
-
     { origin: "Belo Horizonte, MG", destination: "Uberlândia, MG", distanceKm: 556 },
     { origin: "Belo Horizonte, MG", destination: "Juiz de Fora, MG", distanceKm: 272 },
     { origin: "Belo Horizonte, MG", destination: "Montes Claros, MG", distanceKm: 422 },
-
     { origin: "Vitória, ES", destination: "Belo Horizonte, MG", distanceKm: 524 },
     { origin: "Vitória, ES", destination: "Rio de Janeiro, RJ", distanceKm: 521 },
     { origin: "Vitória, ES", destination: "São Paulo, SP", distanceKm: 882 },
 
     // Região Nordeste
-    { origin: "Salvador, BA", destination: "Fortaleza, CE", distanceKm: 1407 },
-    { origin: "Recife, PE", destination: "Fortaleza, CE", distanceKm: 730 },
-    { origin: "Salvador, BA", destination: "Recife, PE", distanceKm: 840 },
-    { origin: "Salvador, BA", destination: "Rio de Janeiro, RJ", distanceKm: 1614 },
-    { origin: "Fortaleza, CE", destination: "Rio de Janeiro, RJ", distanceKm: 2403 },
+    { origin: "Salvador, BA", destination: "Maceió, AL", distanceKm: 632 },
+    { origin: "Salvador, BA", destination: "Aracaju, SE", distanceKm: 356 },
+    { origin: "Salvador, BA", destination: "João Pessoa, PB", distanceKm: 949 },
+    { origin: "Salvador, BA", destination: "Natal, RN", distanceKm: 1126 },
+    { origin: "Recife, PE", destination: "João Pessoa, PB", distanceKm: 120 },
+    { origin: "Recife, PE", destination: "Maceió, AL", distanceKm: 257 },
+    { origin: "Recife, PE", destination: "Natal, RN", distanceKm: 297 },
+    { origin: "Recife, PE", destination: "Aracaju, SE", distanceKm: 501 },
+    { origin: "Fortaleza, CE", destination: "Natal, RN", distanceKm: 537 },
+    { origin: "Fortaleza, CE", destination: "João Pessoa, PB", distanceKm: 688 },
+    { origin: "Fortaleza, CE", destination: "Teresina, PI", distanceKm: 634 },
+    { origin: "Fortaleza, CE", destination: "São Luís, MA", distanceKm: 1070 },
+    { origin: "São Luís, MA", destination: "Teresina, PI", distanceKm: 446 },
+    { origin: "Maceió, AL", destination: "Aracaju, SE", distanceKm: 294 },
+    { origin: "Maceió, AL", destination: "João Pessoa, PB", distanceKm: 395 },
+    { origin: "João Pessoa, PB", destination: "Natal, RN", distanceKm: 185 },
+    { origin: "Natal, RN", destination: "Mossoró, RN", distanceKm: 281 },
 
     // Região Sul
     { origin: "Curitiba, PR", destination: "Porto Alegre, RS", distanceKm: 710 },
