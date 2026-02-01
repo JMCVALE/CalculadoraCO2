@@ -1,134 +1,38 @@
 /**
- * RoutesDB - Global database of transportation routes
+ * RoutesDB - Integração com Google Maps Distance Matrix API
  * 
- * Banco de dados de rotas entre cidades brasileiras com suporte a:
- * - Dados locais pré-cadastrados (rotas principais)
- * - Google Maps Distance Matrix API (cálculo em tempo real para qualquer rota)
- * 
- * Uso:
- * RoutesDB.findDistance("São Paulo, SP", "Rio de Janeiro, RJ")
- * RoutesDB.findDistanceViaAPI("São Paulo, SP", "Rio de Janeiro, RJ")
+ * Calcula distância entre cidades usando Google Maps Distance Matrix API
+ * Requer chave de API configurada em GOOGLE_MAPS_API_KEY
  */
 
 const RoutesDB = {
-  // Configuração da API (usar variável global ou environment)
+  // Chave da API do Google Maps (configure no index.html)
   apiKey: typeof GOOGLE_MAPS_API_KEY !== 'undefined' ? GOOGLE_MAPS_API_KEY : '',
-  /**
-   * Array of route objects
-   * Each route contains:
-   * - origin: {string} City name with state/province code
-   * - destination: {string} City name with state/province code
-   * - distanceKm: {number} Distance in kilometers
-   */
-  routes: [
-    // Southeast Brazil (Major Routes)
-    { origin: "São Paulo, SP", destination: "Rio de Janeiro, RJ", distanceKm: 429 },
-    { origin: "São Paulo, SP", destination: "Brasília, DF", distanceKm: 1015 },
-    { origin: "Rio de Janeiro, RJ", destination: "Brasília, DF", distanceKm: 1150 },
-    { origin: "São Paulo, SP", destination: "Belo Horizonte, MG", distanceKm: 586 },
-    { origin: "Rio de Janeiro, RJ", destination: "Belo Horizonte, MG", distanceKm: 716 },
-
-    // Northeast Brazil Routes
-    { origin: "Salvador, BA", destination: "Fortaleza, CE", distanceKm: 1407 },
-    { origin: "Recife, PE", destination: "Fortaleza, CE", distanceKm: 730 },
-    { origin: "Salvador, BA", destination: "Recife, PE", distanceKm: 840 },
-    { origin: "Salvador, BA", destination: "Rio de Janeiro, RJ", distanceKm: 1614 },
-    { origin: "Fortaleza, CE", destination: "Rio de Janeiro, RJ", distanceKm: 2403 },
-
-    // South Brazil Routes
-    { origin: "Curitiba, PR", destination: "Porto Alegre, RS", distanceKm: 710 },
-    { origin: "São Paulo, SP", destination: "Curitiba, PR", distanceKm: 408 },
-    { origin: "Curitiba, PR", destination: "Rio de Janeiro, RJ", distanceKm: 1100 },
-    { origin: "Porto Alegre, RS", destination: "Rio de Janeiro, RJ", distanceKm: 1838 },
-
-    // North/Center-West Brazil Routes
-    { origin: "Manaus, AM", destination: "Brasília, DF", distanceKm: 2230 },
-    { origin: "Manaus, AM", destination: "Belém, PA", distanceKm: 1427 },
-    { origin: "Brasília, DF", destination: "Goiânia, GO", distanceKm: 209 },
-    { origin: "Brasília, DF", destination: "Cuiabá, MT", distanceKm: 918 },
-
-    // Interior Routes
-    { origin: "São Paulo, SP", destination: "Cuiabá, MT", distanceKm: 1715 },
-    { origin: "Brasília, DF", destination: "Porto Alegre, RS", distanceKm: 2179 },
-    { origin: "Goiânia, GO", destination: "Belo Horizonte, MG", distanceKm: 699 },
-    { origin: "Belém, PA", destination: "Fortaleza, CE", distanceKm: 1842 },
-
-    // Major Hub Connections
-    { origin: "São Paulo, SP", destination: "Salvador, BA", distanceKm: 2085 },
-    { origin: "São Paulo, SP", destination: "Recife, PE", distanceKm: 2375 },
-    { origin: "São Paulo, SP", destination: "Fortaleza, CE", distanceKm: 2865 },
-    { origin: "Rio de Janeiro, RJ", destination: "Curitiba, PR", distanceKm: 1100 },
-    { origin: "Rio de Janeiro, RJ", destination: "Porto Alegre, RS", distanceKm: 1838 },
-
-    // Additional Major Routes
-    { origin: "Brasília, DF", destination: "Salvador, BA", distanceKm: 1621 },
-    { origin: "Belo Horizonte, MG", destination: "Brasília, DF", distanceKm: 716 },
-    { origin: "Brasília, DF", destination: "Rio de Janeiro, RJ", distanceKm: 1150 },
-    { origin: "São Paulo, SP", destination: "Porto Alegre, RS", distanceKm: 1505 },
-    { origin: "Manaus, AM", destination: "Rio de Janeiro, RJ", distanceKm: 3580 },
-    { origin: "Belém, PA", destination: "Rio de Janeiro, RJ", distanceKm: 2870 },
-    { origin: "Recife, PE", destination: "Rio de Janeiro, RJ", distanceKm: 2346 },
-    { origin: "Fortaleza, CE", destination: "Brasília, DF", distanceKm: 2264 },
-  ],
 
   /**
-   * Retrieves all unique cities from the routes database
-   * @returns {array} Sorted array of unique city names
-   */
-  getAllCities: function() {
-    const citiesSet = new Set();
-    
-    this.routes.forEach((route) => {
-      citiesSet.add(route.origin);
-      citiesSet.add(route.destination);
-    });
-
-    // Convert Set to Array and sort alphabetically
-    return Array.from(citiesSet).sort();
-  },
-
-  /**
-   * Finds the distance between two cities
-   * Searches bidirectionally (origin-destination and destination-origin)
-   * @param {string} origin - Starting city name
-   * @param {string} destination - Ending city name
-   * @returns {number|null} Distance in kilometers if found, null otherwise
-   */
-  findDistance: function(origin, destination) {
-    // Normalize inputs: trim whitespace and convert to lowercase for comparison
-    const normalizedOrigin = origin.trim().toLowerCase();
-    const normalizedDestination = destination.trim().toLowerCase();
-
-    // Search in both directions
-    const route = this.routes.find((r) => {
-      const routeOriginLower = r.origin.toLowerCase();
-      const routeDestinationLower = r.destination.toLowerCase();
-
-      return (
-        (routeOriginLower === normalizedOrigin && routeDestinationLower === normalizedDestination) ||
-        (routeOriginLower === normalizedDestination && routeDestinationLower === normalizedOrigin)
-      );
-    });
-
-    // Return distance if found, otherwise return null
-    return route ? route.distanceKm : null;
-  },
-
-  /**
-   * Busca distância via Google Maps Distance Matrix API
-   * Funciona para qualquer par de cidades, não apenas rotas pré-cadastradas
+   * Calcula distância entre duas cidades via Google Maps Distance Matrix API
    * 
-   * @param {string} origin - Cidade de origem
-   * @param {string} destination - Cidade de destino
-   * @returns {Promise<number|null>} Promise resolvida com distância em km ou null se erro
+   * @param {string} origin - Cidade de origem (ex: "São Paulo, SP")
+   * @param {string} destination - Cidade de destino (ex: "Rio de Janeiro, RJ")
+   * @returns {Promise<number|null>} Distância em km ou null se erro
    */
-  findDistanceViaAPI: async function(origin, destination) {
+  findDistance: async function(origin, destination) {
     try {
       // Validar chave de API
       if (!this.apiKey) {
-        console.warn('Google Maps API key não configurada. Use dados locais ou configure a chave.');
+        console.error('❌ Erro: Chave de API do Google Maps não configurada!');
+        console.error('Configure a chave em index.html antes do script routes-data.js');
+        alert('⚠️ API não configurada. Siga as instruções em API_CONFIG.md');
         return null;
       }
+
+      // Validar entrada
+      if (!origin || !destination) {
+        console.warn('⚠️ Origem ou destino vazio');
+        return null;
+      }
+
+      console.log(`🔍 Buscando distância: ${origin} → ${destination}`);
 
       // Construir URL da API
       const params = new URLSearchParams({
@@ -144,47 +48,55 @@ const RoutesDB = {
       const response = await fetch(url);
       const data = await response.json();
 
-      // Verificar se houve erro
+      // Verificar status da resposta
       if (data.status !== 'OK') {
-        console.warn(`Google Maps API error: ${data.status}`);
+        console.error(`❌ Erro da API: ${data.status}`);
+        
+        if (data.status === 'REQUEST_DENIED') {
+          alert('❌ Erro: Chave de API inválida ou permissões insuficientes');
+        } else if (data.status === 'ZERO_RESULTS') {
+          alert('❌ Rota não encontrada. Verifique os nomes das cidades.');
+        } else if (data.status === 'OVER_QUERY_LIMIT') {
+          alert('❌ Limite de requisições excedido. Tente novamente amanhã.');
+        }
+        
         return null;
       }
 
-      // Verificar resultados
+      // Extrair resultado
       if (data.rows && data.rows.length > 0 && data.rows[0].elements && data.rows[0].elements.length > 0) {
         const element = data.rows[0].elements[0];
 
         if (element.status === 'OK') {
           // Converter metros para quilômetros
           const distanceKm = element.distance.value / 1000;
-          return parseFloat(distanceKm.toFixed(2));
+          const distanceRounded = parseFloat(distanceKm.toFixed(2));
+          
+          console.log(`✅ Distância encontrada: ${distanceRounded} km`);
+          return distanceRounded;
+        } else if (element.status === 'ZERO_RESULTS') {
+          console.warn('⚠️ Rota não encontrada');
+          alert('❌ Rota não encontrada. Verifique os nomes das cidades.');
+          return null;
         }
       }
 
+      console.warn('⚠️ Resposta inesperada da API');
       return null;
     } catch (err) {
-      console.error('Erro ao buscar distância via Google Maps API:', err);
+      console.error('❌ Erro ao buscar distância:', err);
+      alert('❌ Erro de conexão. Verifique sua internet e tente novamente.');
       return null;
     }
   },
 
   /**
-   * Busca distância com fallback automático (local → API)
-   * Primeiro tenta dados locais, se não encontrar tenta API
-   * 
-   * @param {string} origin - Cidade de origem
-   * @param {string} destination - Cidade de destino
-   * @returns {Promise<number|null>} Distância em km ou null
+   * Retorna todas as cidades (placeholder - com API dinâmica não há lista fixa)
+   * Para autocomplete, considere usar Geocoding API do Google
+   * @returns {array} Array vazio (dinâmico com API)
    */
-  findDistanceWithFallback: async function(origin, destination) {
-    // Primeiro, tentar dados locais (rápido)
-    const localDistance = this.findDistance(origin, destination);
-    if (localDistance !== null) {
-      return localDistance;
-    }
-
-    // Se não encontrar, tentar API (mais lento mas abrange qualquer rota)
-    const apiDistance = await this.findDistanceViaAPI(origin, destination);
-    return apiDistance;
+  getAllCities: function() {
+    console.warn('⚠️ Nota: Com API dinâmica, use Geocoding para autocomplete');
+    return [];
   },
 };

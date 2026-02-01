@@ -87,12 +87,12 @@ const CONFIG = {
   },
 
   /**
-   * Sets up automatic distance filling based on origin and destination
-   * Listens to changes in origin/destination inputs and manual distance checkbox
+   * Configura preenchimento automático de distância via Google Maps API
+   * Busca distância entre origem e destino usando RoutesDB.findDistance()
    */
   setupDistanceAutofill: function() {
     try {
-      // Get form elements
+      // Obter elementos do formulário
       const originInput = document.getElementById("origin");
       const destinationInput = document.getElementById("destination");
       const distanceInput = document.getElementById("distance");
@@ -100,73 +100,79 @@ const CONFIG = {
       const helperText = document.querySelector(".calculator__helper");
 
       if (!originInput || !destinationInput || !distanceInput || !manualCheckbox || !helperText) {
-        console.error("Required form elements not found");
+        console.error("Elementos do formulário não encontrados");
         return;
       }
 
       /**
-       * Helper function to attempt finding and filling distance
+       * Tenta preencher a distância automaticamente via API
        */
-      const tryFillDistance = () => {
+      const tryFillDistance = async () => {
         const origin = originInput.value.trim();
         const destination = destinationInput.value.trim();
 
-        // Only proceed if both cities are filled
+        // Validar entrada
         if (!origin || !destination) {
           distanceInput.value = "";
-          helperText.textContent = "Distância será preenchida automaticamente";
+          helperText.textContent = "Digite origem e destino";
           helperText.style.color = "inherit";
           return;
         }
 
-        // Find distance using RoutesDB
-        const distance = RoutesDB.findDistance(origin, destination);
+        // Desabilitar input e mostrar carregando
+        distanceInput.value = "⏳ Buscando...";
+        distanceInput.disabled = true;
+        helperText.textContent = "Conectando ao Google Maps...";
+        helperText.style.color = "#3b82f6";
+
+        // Buscar distância via API
+        const distance = await RoutesDB.findDistance(origin, destination);
 
         if (distance !== null) {
-          // Distance found - fill the input and make it readonly
+          // Sucesso: preencher distância
           distanceInput.value = distance;
           distanceInput.readOnly = true;
           manualCheckbox.checked = false;
           
-          // Update helper text to green success message
-          helperText.textContent = `Distância encontrada: ${distance} km`;
-          helperText.style.color = "#10b981"; // Primary green
+          helperText.textContent = `✅ Distância encontrada: ${distance} km`;
+          helperText.style.color = "#10b981";
           helperText.style.fontWeight = "600";
         } else {
-          // Distance not found - clear and suggest manual input
+          // Erro: permitir entrada manual
           distanceInput.value = "";
+          distanceInput.disabled = false;
           distanceInput.readOnly = false;
           
-          // Update helper text with suggestion
-          helperText.textContent = "Rota não encontrada. Verifique sua entrada ou ative a entrada de distância manual.";
-          helperText.style.color = "#f59e0b"; // Warning orange
+          helperText.textContent = "❌ Rota não encontrada. Digite manualmente ou verifique os nomes.";
+          helperText.style.color = "#f59e0b";
           helperText.style.fontWeight = "500";
         }
       };
 
-      // Add 'change' event listeners to origin and destination inputs
+      // Listeners para mudanças nos inputs
       originInput.addEventListener("change", tryFillDistance);
       destinationInput.addEventListener("change", tryFillDistance);
 
-      // Add 'change' listener to manual distance checkbox
+      // Listener para checkbox de distância manual
       manualCheckbox.addEventListener("change", () => {
         if (manualCheckbox.checked) {
-          // Enable manual entry
+          // Modo manual
           distanceInput.readOnly = false;
+          distanceInput.disabled = false;
           distanceInput.value = "";
-          helperText.textContent = "Digite a distância manualmente (em quilômetros)";
+          helperText.textContent = "Digite a distância em quilômetros";
           helperText.style.color = "inherit";
           helperText.style.fontWeight = "normal";
           distanceInput.focus();
         } else {
-          // Try to find route again
+          // Tentar buscar automaticamente novamente
           tryFillDistance();
         }
       });
 
-      console.log("Distance autofill setup complete");
+      console.log("✅ Preenchimento automático de distância configurado");
     } catch (error) {
-      console.error("Error setting up distance autofill:", error);
+      console.error("Erro ao configurar preenchimento automático:", error);
     }
   },
 };
