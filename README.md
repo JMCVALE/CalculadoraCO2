@@ -1,6 +1,7 @@
 # 🌿 Calculadora de Emissão de CO²
 
-Uma aplicação web interativa para calcular e comparar emissões de CO² entre cidades usando diferentes modos de transporte. Ajude a entender o impacto ambiental de suas viagens e compense suas emissões com créditos de carbono.
+Uma aplicação web interativa para calcular e comparar emissões de CO² entre cidades usando diferentes modos de transporte. 
+Ajude a entender o impacto ambiental de suas viagens e compense suas emissões com créditos de carbono.
 
 **Desenvolvido por Júlia Vale com 💚 para DIO | Project GitHub Copilot**
 
@@ -12,50 +13,10 @@ Uma aplicação web interativa para calcular e comparar emissões de CO² entre 
 - ✅ **Distância Automática** - Distância calculada automaticamente entre cidades cadastradas
 - ✅ **Google Maps Distance Matrix API** - Suporte opcional a cálculo de distâncias para qualquer rota
 - ✅ **Créditos de Carbono** - Estime créditos necessários e preço para compensar emissões
-- ✅ **Interface Responsiva** - Funciona perfeitamente em desktop e mobile
-- ✅ **Totalmente em Português** - Interface 100% localizada para português brasileiro
-- ✅ **Animações Suaves** - Transições elegantes e feedback visual instantâneo
 
 ## 🚀 Demo
 
 Acesse a aplicação ao vivo: [🔗 Link do Projeto](#)
-
-## 📋 Requisitos
-
-- Navegador moderno com suporte a ES6+ JavaScript
-- Suporte a CSS Grid e Flexbox
-- Suporte ao seletor CSS `:has()` (navegadores modernos)
-
-## 🛠️ Instalação
-
-1. Clone o repositório:
-```bash
-git clone https://github.com/JMCVALE/CalculadoraCO2.git
-cd CalculadoraCO2
-```
-
-2. Abra o arquivo `index.html` no navegador:
-```bash
-# No Windows
-start index.html
-
-# No macOS
-open index.html
-
-# No Linux
-xdg-open index.html
-```
-
-Ou use um servidor local:
-```bash
-# Python 3
-python -m http.server 8000
-
-# Node.js com http-server
-npx http-server
-```
-
-Acesse `http://localhost:8000` no navegador.
 
 ## 📁 Estrutura do Projeto
 
@@ -240,7 +201,7 @@ Preço Médio = Créditos × R$ 100 (média entre min e max)
 ## 🐛 Conhecidos
 
 - O seletor CSS `:has()` requer navegadores modernos (Chrome 105+, Firefox 121+, Safari 15.4+)
-- As distâncias automáticas funcionam apenas com cidades cadastradas no `routes-data.js`
+- As distâncias automáticas funcionam com cidades cadastradas em `routes-data.js` ou qualquer rota via Google Maps API
 
 ## 🤝 Contribuindo
 
@@ -255,7 +216,6 @@ Contribuições são bem-vindas! Para contribuir:
 ## 📝 Licença
 
 Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
-
 ## 👤 Autor
 
 **Júlia Vale**
@@ -274,7 +234,7 @@ Desenvolvido com 💚 para [DIO](https://www.dio.me/) | Project GitHub Copilot
 
 Para dúvidas, sugestões ou reportar bugs:
 - 🐙 [Issues no GitHub](https://github.com/JMCVALE/CalculadoraCO2/issues)
-- 📧 Email: [seu-email@email.com]
+- 📧 Email: juliamcvale@gmail.com
 
 ---
 
